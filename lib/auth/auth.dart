@@ -13,7 +13,7 @@ class Auth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppButtonStyle.mainBackgroundColor,
+      backgroundColor: AppStyle.mainBackgroundColor,
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -104,7 +104,7 @@ class _FormWidgetState extends State<_FormWidget> {
         ),
         SizedBox(height: 39,),
         ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppButtonStyle.mainForegroundColor)),
+            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)),
             onPressed: (){
               reg();
             },

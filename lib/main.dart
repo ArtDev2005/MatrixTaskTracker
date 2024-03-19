@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/auth/auth.dart';
-import 'package:matrix/auth/reg.dart';
+import 'package:matrix/reg/first_project_screen.dart';
+import 'package:matrix/reg/reg.dart';
 import 'firebase_options.dart';
 
 
@@ -12,40 +13,27 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
+  final PendingDynamicLinkData? emailLink = await FirebaseDynamicLinks.instance.getInitialLink();
 
-  if (initialLink != null) {
-    final Uri deepLink = initialLink.link;
-    print(deepLink.path);
-    // Example of using the dynamic link to push the user to a different screen
-    //Navigator.pushNamed(context, deepLink.path);
-  }
 
-  FirebaseDynamicLinks.instance.onLink.listen(
-        (pendingDynamicLinkData) {
-      // Set up the `onLink` event listener next as it may be received here
-      if (pendingDynamicLinkData != null) {
-        final Uri deepLink = pendingDynamicLinkData.link;
-        // Example of using the dynamic link to push the user to a different screen
-        //Navigator.pushNamed(context, deepLink.path);
-      }
-    },
-  );
-  runApp(MyApp());
+  runApp(MyApp(emailLink: emailLink));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final emailLink;
+  const MyApp({super.key, required this.emailLink});
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Saira'),
       routes: {
-        "/reg": (context) => Reg(),
+        "/reg": (context) => Reg(emailLink: this.emailLink),
         "/auth": (context) => Auth(),
+        "/reg/first_project_screen": (context) => FirstProjectScreen(),
       },
-      initialRoute: "reg",
+      initialRoute: "/reg",
     );
   }
 }

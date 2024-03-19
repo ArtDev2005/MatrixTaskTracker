@@ -1,3 +1,4 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/resources/resources.dart';
 import 'package:matrix/theme/theme.dart';
@@ -8,12 +9,13 @@ import 'package:matrix/firebase_options.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Reg extends StatelessWidget {
-  Reg({super.key});
+  final emailLink;
+  const Reg({super.key, required this.emailLink});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppButtonStyle.mainBackgroundColor,
+      backgroundColor: AppStyle.mainBackgroundColor,
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -23,7 +25,7 @@ class Reg extends StatelessWidget {
           children: [
             Image.asset("assets/images/matrix_logo.png"),
             SizedBox(height: 35,),
-            _FormWidget(),
+            _FormWidget(emailLink: this.emailLink),
             SizedBox(height: 39,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -35,9 +37,9 @@ class Reg extends StatelessWidget {
                 TextButton(
                   onPressed: (){
                     final nav = Navigator.of(context);
-                    nav.pushNamed("/auth");
+                    nav.pushReplacementNamed("/auth");
                   },
-                  child: Text("Log in.", style: TextStyle(color: AppButtonStyle.mainForegroundColor),),
+                  child: Text("Log in.", style: TextStyle(color: AppStyle.mainForegroundColor),),
                 )
               ],
             ),
@@ -55,7 +57,8 @@ class Reg extends StatelessWidget {
 
 
 class _FormWidget extends StatefulWidget {
-  const _FormWidget({super.key});
+  final emailLink;
+  const _FormWidget({super.key, required this.emailLink});
 
   @override
   State<_FormWidget> createState() => _FormWidgetState();
@@ -77,7 +80,7 @@ class _FormWidgetState extends State<_FormWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future signInWithEmailLink(userEmail)async{
-    var _userEmail=userEmail;
+    var _userEmail = userEmail;
     return await _auth.sendSignInLinkToEmail(
         email: _userEmail,
         actionCodeSettings: ActionCodeSettings(
@@ -93,6 +96,23 @@ class _FormWidgetState extends State<_FormWidget> {
 
   Future<void> reg() async {
     signInWithEmailLink(_emailController.text);
+    getLink();
+  }
+
+  void getLink() async {
+    try {
+      if (FirebaseAuth.instance.isSignInWithEmailLink(widget.emailLink!.link.path)) {
+        // The client SDK will parse the code from the link for you.
+        final userCredential = await FirebaseAuth.instance
+            .signInWithEmailLink(email: _emailController.text, emailLink: widget.emailLink.link.path);
+
+        // You can access the new user via userCredential.user.
+        final emailAddress = userCredential.user?.email;
+
+        print('Successfully signed in with email link!');}}
+    catch (error) {
+      print('Error signing in with email link.');
+    }
   }
 
   @override
@@ -120,9 +140,9 @@ class _FormWidgetState extends State<_FormWidget> {
         ),
         SizedBox(height: 39,),
         ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppButtonStyle.mainForegroundColor)),
+            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)),
             onPressed: (){
-              reg();
+              Navigator.of(context).pushNamed("/reg/first_project_screen");
             },
             child: Text("Create account", style: TextStyle(color: Colors.white),)
         ),
