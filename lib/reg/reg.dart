@@ -1,10 +1,12 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:matrix/resources/resources.dart';
 import 'package:matrix/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:matrix/firebase_options.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,7 +17,6 @@ class Reg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppStyle.mainBackgroundColor,
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -23,7 +24,7 @@ class Reg extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset("assets/images/matrix_logo.png"),
+            Image.asset(Images.matrixLogo),
             SizedBox(height: 35,),
             _FormWidget(emailLink: this.emailLink),
             SizedBox(height: 39,),
@@ -31,7 +32,7 @@ class Reg extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+                  style: Theme.of(context).primaryTextTheme.bodyMedium,
                   "Already use MATRIX?"
                 ),
                 TextButton(
@@ -45,7 +46,7 @@ class Reg extends StatelessWidget {
             ),
             Text(
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+              style: Theme.of(context).primaryTextTheme.bodyMedium,
               "By continuing, you agree to the Terms of Service and Privacy Policy"
             )
           ],
@@ -58,21 +59,24 @@ class Reg extends StatelessWidget {
 
 class _FormWidget extends StatefulWidget {
   final emailLink;
-  const _FormWidget({super.key, required this.emailLink});
+  _FormWidget({super.key, required this.emailLink});
+
 
   @override
   State<_FormWidget> createState() => _FormWidgetState();
 }
 
 class _FormWidgetState extends State<_FormWidget> {
+
+  final buttonStyle = OutlinedButton.styleFrom(
+      side: BorderSide(width: 1.0, color: Colors.white)
+  );
+
   final textFieldDecorator = InputDecoration(
     border: OutlineInputBorder(),
     labelStyle: TextStyle(color: Colors.white),
     labelText: "Email",
     contentPadding: EdgeInsets.only(left: 16),
-  );
-  final buttonStyle = OutlinedButton.styleFrom(
-      side: BorderSide(width: 1.0, color: Colors.white)
   );
 
   final TextEditingController _emailController = TextEditingController();
@@ -126,7 +130,11 @@ class _FormWidgetState extends State<_FormWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/images/google_icon.png"),
+              SvgPicture.asset(
+                height: 18,
+                width: 18,
+                Images.iconGoogle
+              ),
               SizedBox(width: 8,),
               Text("Sign in with Google", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),)
             ],
@@ -143,6 +151,7 @@ class _FormWidgetState extends State<_FormWidget> {
             style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)),
             onPressed: (){
               Navigator.of(context).pushNamed("/reg/first_project_screen");
+              //reg();
             },
             child: Text("Create account", style: TextStyle(color: Colors.white),)
         ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:matrix/auth/auth.dart';
 import 'package:matrix/reg/first_project_screen.dart';
 import 'package:matrix/reg/reg.dart';
+import 'package:matrix/theme/theme.dart';
 import 'firebase_options.dart';
 
 
@@ -27,13 +28,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Saira'),
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppStyle.mainBackgroundColor,
+        primaryTextTheme: TextTheme(
+          bodySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w400)
+        ),
+        primaryColor: AppStyle.mainBackgroundColor,
+        fontFamily: 'Saira',
+      ),
       routes: {
         "/reg": (context) => Reg(emailLink: this.emailLink),
-        "/auth": (context) => Auth(),
+        //"/auth": (context) => Auth(),
         "/reg/first_project_screen": (context) => FirstProjectScreen(),
       },
       initialRoute: "/reg",
+
     );
   }
 }

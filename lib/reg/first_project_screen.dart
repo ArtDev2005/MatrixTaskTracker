@@ -16,7 +16,6 @@ class _FirstProjectScreenState extends State<FirstProjectScreen> {
     contentPadding: EdgeInsets.only(left: 16),
   );
 
-  final listControllers = List.filled(4, TextEditingController());
   /*final first = FocusNode();
   final second = FocusNode();
   final third = FocusNode();
@@ -25,16 +24,6 @@ class _FirstProjectScreenState extends State<FirstProjectScreen> {
 
   double progressBarFilledSpace = 70;
   int multiplier = 1;
-
-  InputDecoration decorate(String labelName, Icon icon){
-    return InputDecoration(
-      border: OutlineInputBorder(),
-      labelStyle: TextStyle(color: Colors.white),
-      labelText: labelName,
-      contentPadding: EdgeInsets.only(left: 16),
-      prefixIcon: icon,
-    );
-  }
 
   @override
   void initState() {
@@ -53,7 +42,6 @@ class _FirstProjectScreenState extends State<FirstProjectScreen> {
     listFocusNodes.add(first);
     listFocusNodes.add(second);*/
     return Scaffold(
-      backgroundColor: AppStyle.mainBackgroundColor,
       body: Column(
         children: [
           Padding(
@@ -100,50 +88,57 @@ class _FirstProjectScreenState extends State<FirstProjectScreen> {
             fontSize: 20),
           ),
           SizedBox(height: 16,),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: BorderRadius.all(Radius.circular(55)),
-              color: AppStyle.firstProjectCardColor
-            ),
-            width: 380,
-            height: 318,
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 56,
-                  child: TextField(
-                    ///**/focusNode: listFocusNodes[index],
-                    controller: listControllers[index],
-                    decoration: index == 0 ?
-                    decorate("Project name", Icon(Icons.image)) :
-                    decorate("Task ${index}", Icon(Icons.check_circle_outline)) ,
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
-            ),
-          )
+          _NewProjectCardWidget()
         ],
       )
     );
   }
 }
 
-/*Column(
-                children: [
-                  TextField(
-                    decoration: decorate("Project name"),
-                  ),
-                  TextField(
-                    decoration: decorate("Task 1"),
-                  ),
-                  TextField(
-                    decoration: decorate("Task 2"),
-                  ),
-                  TextField(
-                    decoration: decorate("Task 3"),
-                  )
-                ],*/
+class _NewProjectCardWidget extends StatefulWidget {
+  const _NewProjectCardWidget({super.key});
+
+  @override
+  State<_NewProjectCardWidget> createState() => _NewProjectCardWidgetState();
+}
+
+class _NewProjectCardWidgetState extends State<_NewProjectCardWidget> {
+
+  InputDecoration decorate(String labelName, Icon icon){
+    return InputDecoration(
+      border: OutlineInputBorder(),
+      labelStyle: TextStyle(color: Colors.white),
+      labelText: labelName,
+      contentPadding: EdgeInsets.only(left: 16),
+      prefixIcon: icon,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(),
+          borderRadius: BorderRadius.all(Radius.circular(55)),
+          color: AppStyle.firstProjectCardColor
+      ),
+      width: 380,
+      height: 318,
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return SizedBox(
+            height: 56,
+            child: TextField(
+              decoration: index == 0 ?
+              decorate("Project name", Icon(Icons.image)) :
+              decorate("Task ${index}", Icon(Icons.check_circle_outline)) ,
+            ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
+      ),
+    );
+  }
+}
