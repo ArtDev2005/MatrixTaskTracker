@@ -44,10 +44,17 @@ class Reg extends StatelessWidget {
                 )
               ],
             ),
-            Text(
+            RichText(
               textAlign: TextAlign.center,
-              style: Theme.of(context).primaryTextTheme.bodyMedium,
-              "By continuing, you agree to the Terms of Service and Privacy Policy"
+              text: TextSpan(
+                text: 'By continuing, you agree to the ',
+                style: Theme.of(context).primaryTextTheme.bodyMedium,
+                children: const <TextSpan>[
+                  TextSpan(text: 'Terms of Service ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: "and"),
+                  TextSpan(text: ' Privacy Policy', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
             )
           ],
         ),
