@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //home: _ProgressBarWidget(),
       theme: ThemeData(
         scaffoldBackgroundColor: AppStyle.mainBackgroundColor,
         primaryTextTheme: TextTheme(

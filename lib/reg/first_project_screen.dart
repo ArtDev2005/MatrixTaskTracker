@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/theme/theme.dart';
 
-ProgressBarData data = ProgressBarData();
+double multiplier = 1;
 
 class FirstProjectScreen extends StatefulWidget {
   FirstProjectScreen({super.key});
@@ -11,7 +12,6 @@ class FirstProjectScreen extends StatefulWidget {
 }
 
 class _FirstProjectScreenState extends State<FirstProjectScreen> {
-  List<Widget> contents = [_NewProjectNameCardWidget(), _NewProjectTasksCardWidget()];
 
   final textFieldDecorator = InputDecoration(
     border: OutlineInputBorder(),
@@ -56,65 +56,23 @@ class _FirstProjectScreenState extends State<FirstProjectScreen> {
 
   List<bool> textFieldsStates = List.filled(4, false);
 
+  void callback(){
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-          padding: EdgeInsets.only(top: 75, left: 20),
-            child: Row(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 280,
-                      height: 4,
-                      color: AppStyle.linearProgressBarColor,
-                    ),
-                    Container(
-                      width: data.progressBarFilledSpace * data.multiplier,
-                      height: 4,
-                      color: AppStyle.mainForegroundColor,
-                    ),
-                  ],
-                ),
-                SizedBox(width: 20,),
-                ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)),
-                  onPressed: (){
-                    if (data.multiplier < 4){
-                      data.multiplier += 1;
-                    }
-
-                    setState(() {
-
-                    });
-                  },
-                  child: Text(
-                    "Skip",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-            )
-          ),
-          SizedBox(height: 16,),
-          Text("Your first Project",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          SizedBox(height: 16,),
-          Text("What is your team working on now?",
-            style: TextStyle(color: Colors.white,
-            fontSize: 20),
-          ),
-          SizedBox(height: 16,),
-          contents[data.multiplier.toInt() - 1],
-        ],
+      body: Inherit(
+        child: Column(
+          children: [
+            _ProgressBarWidget(callback: callback,),
+            SizedBox(height: 16,),
+            ViewStep()
+          ],
+        ),
       )
     );
   }
@@ -136,7 +94,7 @@ class _NewProjectNameCardWidgetState extends State<_NewProjectNameCardWidget> {
         borderSide: const BorderSide(color: Colors.white),
       ),
       disabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white12),
+        borderSide: const BorderSide(color: Colors.white24),
       ),
       labelStyle: TextStyle(color: textColor),
       labelText: labelName,
@@ -164,30 +122,47 @@ class _NewProjectNameCardWidgetState extends State<_NewProjectNameCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.all(Radius.circular(55)),
-          color: AppStyle.firstProjectCardColor
-      ),
-      width: 380,
-      height: 318,
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 56,
-            child: TextField(
-              enabled: index == 0 ? true : false,
-              decoration: index == 0 ?
-              decorate("Project name", Icon(Icons.image), Colors.white, ) :
-              decorate("Task ${index}", Icon(Icons.check_circle_outline), Colors.white12) ,
-            ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
-      ),
+    return Column(
+      children: [
+        Text("Your first Project",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        SizedBox(height: 16,),
+        Text("What is your team working on now?",
+          style: TextStyle(color: Colors.white,
+              fontSize: 20),
+        ),
+        SizedBox(height: 16,),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.all(Radius.circular(55)),
+              color: AppStyle.firstProjectCardColor
+          ),
+          width: 380,
+          height: 318,
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 56,
+                child: TextField(
+                  enabled: index == 0 ? true : false,
+                  decoration: index == 0 ?
+                  decorate("Project name", Icon(Icons.image), Colors.white, ) :
+                  decorate("Task ${index}", Icon(Icons.check_circle_outline), Colors.white24) ,
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -201,6 +176,96 @@ class _NewProjectTasksCardWidget extends StatefulWidget {
 }
 
 class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> {
+
+  InputDecoration decorate(String labelName, Icon icon, Color textColor){
+    return InputDecoration(
+      border: OutlineInputBorder(),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white24),
+      ),
+      labelStyle: TextStyle(color: textColor),
+      labelText: labelName,
+      contentPadding: EdgeInsets.only(left: 16),
+      prefixIcon: icon,
+    );
+  }
+  var con;
+
+
+  @override
+  void initState() {
+    super.initState();
+    con = getControllers();
+  }
+
+  List<TextEditingController> getControllers(){
+    List<TextEditingController> con = [];
+    for (int i = 0; i < 4; i++){
+      TextEditingController c = TextEditingController();
+      con.add(c);
+    }
+    return con;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Your first Project",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        SizedBox(height: 16,),
+        Text("What is your team working on now?",
+          style: TextStyle(color: Colors.white,
+              fontSize: 20),
+        ),
+        SizedBox(height: 16,),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.all(Radius.circular(55)),
+              color: AppStyle.firstProjectCardColor
+          ),
+          width: 380,
+          height: 318,
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 56,
+                child: TextField(
+                  enabled: index != 0 ? true : false,
+                  decoration: index == 0 ?
+                  decorate("Project name", Icon(Icons.image), Colors.white12, ) :
+                  decorate("Task ${index}", Icon(Icons.check_circle_outline), Colors.white) ,
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+class _NewProjectInviteWidget extends StatefulWidget {
+  const _NewProjectInviteWidget({super.key});
+
+  @override
+  _NewProjectInviteWidgetState createState() => _NewProjectInviteWidgetState();
+}
+
+class _NewProjectInviteWidgetState extends State<_NewProjectInviteWidget> {
 
   InputDecoration decorate(String labelName, Icon icon, Color textColor){
     return InputDecoration(
@@ -237,29 +302,39 @@ class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.all(Radius.circular(55)),
-          color: AppStyle.firstProjectCardColor
-      ),
-      width: 380,
-      height: 318,
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 56,
-            child: TextField(
-              enabled: index != 0 ? true : false,
-              decoration: index == 0 ?
-              decorate("Project name", Icon(Icons.image), Colors.white12, ) :
-              decorate("Task ${index}", Icon(Icons.check_circle_outline), Colors.white) ,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          Text(
+            "Who is working on this project?",
+            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)
+          ),
+          SizedBox(height: 16,),
+          TextField(
+            decoration: decorate("Email", Icon(Icons.mail), Colors.white),
+          ),
+          SizedBox(height: 16,),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor),
             ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
+            onPressed: (){
+
+            },
+            child: Text("Invite from contacts", style: TextStyle(color: Colors.white)),
+          ),
+          SizedBox(height: 16,),
+          RichText(
+            text: TextSpan(
+              style: TextStyle(fontSize: 16),
+              children: [
+                TextSpan(text: "Read more in our "),
+                TextSpan(text: "Privacy Policy", style: TextStyle(fontWeight: FontWeight.bold)),
+              ]
+            ),
+          )
+        ],
       ),
     );
   }
@@ -267,15 +342,19 @@ class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> 
 
 
 class _ProgressBarWidget extends StatefulWidget {
-  const _ProgressBarWidget({super.key});
+  final Function callback;
+  const _ProgressBarWidget({super.key, required this.callback});
 
   @override
   State<_ProgressBarWidget> createState() => _ProgressBarWidgetState();
 }
 
 class _ProgressBarWidgetState extends State<_ProgressBarWidget> {
+  //double multiplier = 1;
   @override
   Widget build(BuildContext context) {
+    final data = Inherit.of(context);
+    print(multiplier);
     return Padding(
       padding: EdgeInsets.only(top: 75, left: 20),
       child: Row(
@@ -288,7 +367,7 @@ class _ProgressBarWidgetState extends State<_ProgressBarWidget> {
                 color: AppStyle.linearProgressBarColor,
               ),
               Container(
-                width: data.progressBarFilledSpace * data.multiplier,
+                width: data.progressBarFilledSpace * multiplier,
                 height: 4,
                 color: AppStyle.mainForegroundColor,
               ),
@@ -298,13 +377,10 @@ class _ProgressBarWidgetState extends State<_ProgressBarWidget> {
           ElevatedButton(
             style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)),
             onPressed: (){
-              if (data.multiplier < 4){
-                data.multiplier += 1;
+              if (multiplier < data.contents.length){
+                multiplier += 1;
               }
-
-              setState(() {
-
-              });
+              widget.callback();
             },
             child: Text(
               "Skip",
@@ -317,7 +393,42 @@ class _ProgressBarWidgetState extends State<_ProgressBarWidget> {
   }
 }
 
-class ProgressBarData{
+class Inherit extends InheritedWidget {
+  final List<Widget> contents = [
+    _NewProjectNameCardWidget(),
+    _NewProjectTasksCardWidget(),
+    _NewProjectInviteWidget(),
+  ];
   final progressBarFilledSpace = 70;
-  double multiplier = 1;
+  Inherit({
+    super.key,
+    required Widget child,
+  }) : super(child: child);
+
+  static Inherit of(BuildContext context) {
+    final Inherit? result = context.dependOnInheritedWidgetOfExactType<Inherit>();
+    assert(result != null, 'No Inherit found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(Inherit old) {
+    return true;
+  }
+}
+
+class ViewStep extends StatefulWidget {
+  const ViewStep({super.key});
+
+  @override
+  State<ViewStep> createState() => _ViewStepState();
+}
+
+class _ViewStepState extends State<ViewStep> {
+  @override
+  Widget build(BuildContext context) {
+    final data = Inherit.of(context);
+
+    return data.contents[multiplier.toInt() - 1];
+  }
 }
