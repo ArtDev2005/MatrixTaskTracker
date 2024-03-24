@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //home: _ProgressBarWidget(),
       theme: ThemeData(
         scaffoldBackgroundColor: AppStyle.mainBackgroundColor,
         primaryTextTheme: TextTheme(
@@ -44,6 +43,51 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: "/reg",
 
+    );
+  }
+}
+
+class ProgressBarWidget extends StatefulWidget {
+  const ProgressBarWidget({super.key});
+
+  @override
+  State<ProgressBarWidget> createState() => _ProgressBarWidgetState();
+}
+
+class _ProgressBarWidgetState extends State<ProgressBarWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.only(top: 75, left: 20),
+        child: Row(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: 280,
+                  height: 4,
+                  color: AppStyle.linearProgressBarColor,
+                ),
+                Container(
+                  width: 70,
+                  height: 4,
+                  color: AppStyle.mainForegroundColor,
+                ),
+              ],
+            ),
+            SizedBox(width: 20,),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(AppStyle
+                      .mainForegroundColor)),
+              onPressed: () {},
+              child: Text(
+                "Skip",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        )
     );
   }
 }
