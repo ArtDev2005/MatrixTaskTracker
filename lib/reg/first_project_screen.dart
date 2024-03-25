@@ -62,6 +62,8 @@ class _NewProjectNameCardWidget extends StatefulWidget {
 
 class _NewProjectNameCardWidgetState extends State<_NewProjectNameCardWidget> {
 
+  final TextEditingController _emailController = TextEditingController();
+
   InputDecoration decorate(String labelName, Icon icon, Color textColor){
     return InputDecoration(
       border: OutlineInputBorder(),
@@ -83,7 +85,7 @@ class _NewProjectNameCardWidgetState extends State<_NewProjectNameCardWidget> {
     return Scaffold(
       body: Column(
         children: [
-          ProgressBarWidget(step: 1, nextScreen: _NewProjectTasksCardWidget(),),
+          ProgressBarWidget(step: 1, nextScreen: _NewProjectTasksCardWidget(emailController: _emailController,),),
           Text("Your first Project",
             style: TextStyle(
                 color: Colors.white,
@@ -112,6 +114,8 @@ class _NewProjectNameCardWidgetState extends State<_NewProjectNameCardWidget> {
                 return SizedBox(
                   height: 56,
                   child: TextField(
+                    controller: index == 0 ? _emailController : null,
+                    style: TextStyle(color: Colors.white),
                     enabled: index == 0 ? true : false,
                     decoration: index == 0 ?
                     decorate("Project name", Icon(Icons.image), Colors.white, ) :
@@ -130,7 +134,10 @@ class _NewProjectNameCardWidgetState extends State<_NewProjectNameCardWidget> {
 
 
 class _NewProjectTasksCardWidget extends StatefulWidget {
-  const _NewProjectTasksCardWidget({super.key});
+  final TextEditingController emailController;
+  final List<TextEditingController> _controllers = List.generate(4, (index) => TextEditingController());
+  _NewProjectTasksCardWidget({super.key, required this.emailController});
+
 
   @override
   _NewProjectTasksCardWidgetState createState() => _NewProjectTasksCardWidgetState();
@@ -138,16 +145,18 @@ class _NewProjectTasksCardWidget extends StatefulWidget {
 
 class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> {
 
-  InputDecoration decorate(String labelName, Icon icon, Color textColor){
+  InputDecoration decorate(String labelName, Icon icon){
     return InputDecoration(
-      border: OutlineInputBorder(),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white)
+      ),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white),
+        borderSide: const BorderSide(color: Colors.white)
       ),
       disabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white24),
+        borderSide: const BorderSide(color: Colors.white),
       ),
-      labelStyle: TextStyle(color: textColor),
+      labelStyle: TextStyle(color: Colors.white),
       labelText: labelName,
       contentPadding: EdgeInsets.only(left: 16),
       prefixIcon: icon,
@@ -156,10 +165,12 @@ class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> 
 
   @override
   Widget build(BuildContext context) {
+    widget._controllers[0].text = widget.emailController.text;
+    final data = <TextEditingController>[...widget._controllers];
     return Scaffold(
       body: Column(
         children: [
-          ProgressBarWidget(step: 2, nextScreen: _NewProjectInviteWidget(),),
+          ProgressBarWidget(step: 2, nextScreen: _NewProjectInviteWidget(data: data),),
           Text("Your first Project",
             style: TextStyle(
                 color: Colors.white,
@@ -188,10 +199,13 @@ class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> 
                 return SizedBox(
                   height: 56,
                   child: TextField(
+
+                    style: TextStyle(color: Colors.white),
+                    controller: widget._controllers[index],
                     enabled: index != 0 ? true : false,
                     decoration: index == 0 ?
-                    decorate("Project name", Icon(Icons.image), Colors.white12, ) :
-                    decorate("Task ${index}", Icon(Icons.check_circle_outline), Colors.white) ,
+                    decorate("Project name", Icon(Icons.image)) :
+                    decorate("Task ${index}", Icon(Icons.check_circle_outline)) ,
                   ),
                 );
               },
@@ -206,7 +220,10 @@ class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> 
 
 
 class _NewProjectInviteWidget extends StatefulWidget {
-  const _NewProjectInviteWidget({super.key});
+  final List<TextEditingController> data;
+  _NewProjectInviteWidget({super.key, required this.data});
+  final _inviteEmailController = TextEditingController();
+
 
   @override
   _NewProjectInviteWidgetState createState() => _NewProjectInviteWidgetState();
@@ -232,10 +249,12 @@ class _NewProjectInviteWidgetState extends State<_NewProjectInviteWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final data = <TextEditingController>[...widget.data, widget._inviteEmailController];
+    print("asdsadasdsaddddddddddddddddddddddddddd${data}");
     return Scaffold(
       body: Column(
         children: [
-          ProgressBarWidget(step: 3, nextScreen: _NewProjectInviteWidget(),),
+          ProgressBarWidget(step: 3, nextScreen: _NewProjectInviteWidget(data: data,),),
           SizedBox(height: 16,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -303,7 +322,7 @@ class _ProgressBarWidgetState extends State<ProgressBarWidget> {
                   color: AppStyle.linearProgressBarColor,
                 ),
                 Container(
-                  width: 70 * widget.step.toDouble(),
+                  width: 93 * widget.step.toDouble(),
                   height: 4,
                   color: AppStyle.mainForegroundColor,
                 ),
@@ -315,7 +334,30 @@ class _ProgressBarWidgetState extends State<ProgressBarWidget> {
                   backgroundColor: MaterialStatePropertyAll(AppStyle
                       .mainForegroundColor)),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => widget.nextScreen));
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+
+                    pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation,){
+                      return widget.nextScreen;
+                    },
+                    transitionsBuilder: (
+                        BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      final tween = Tween(begin: begin, end: end);
+                      final offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: Duration(milliseconds: 200),
+
+                  ),
+                );
               },
               child: Text(
                 "Skip",
