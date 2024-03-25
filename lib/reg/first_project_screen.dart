@@ -166,7 +166,7 @@ class _NewProjectTasksCardWidgetState extends State<_NewProjectTasksCardWidget> 
   @override
   Widget build(BuildContext context) {
     widget._controllers[0].text = widget.emailController.text;
-    final data = <TextEditingController>[...widget._controllers];
+    final data = <TextEditingController>[widget.emailController, ...widget._controllers];
     return Scaffold(
       body: Column(
         children: [
@@ -250,7 +250,7 @@ class _NewProjectInviteWidgetState extends State<_NewProjectInviteWidget> {
   @override
   Widget build(BuildContext context) {
     final data = <TextEditingController>[...widget.data, widget._inviteEmailController];
-    print("asdsadasdsaddddddddddddddddddddddddddd${data}");
+    //print("asdsadasdsaddddddddddddddddddddddddddd${data}");
     return Scaffold(
       body: Column(
         children: [
@@ -311,18 +311,19 @@ class _ProgressBarWidgetState extends State<ProgressBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 75, left: 20),
+        padding: EdgeInsets.only(top: 75),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Stack(
               children: [
                 Container(
-                  width: 280,
+                  width: 230,
                   height: 4,
                   color: AppStyle.linearProgressBarColor,
                 ),
                 Container(
-                  width: 93 * widget.step.toDouble(),
+                  width: 80 * widget.step.toDouble(),
                   height: 4,
                   color: AppStyle.mainForegroundColor,
                 ),
