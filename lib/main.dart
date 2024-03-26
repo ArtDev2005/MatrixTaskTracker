@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/auth/auth.dart';
-import 'package:matrix/reg/first_project_screen.dart';
+import 'package:matrix/create_new_project/first_project_screen.dart';
 import 'package:matrix/reg/reg.dart';
 import 'package:matrix/theme/theme.dart';
 import 'firebase_options.dart';
