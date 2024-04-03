@@ -6,4 +6,5 @@ abstract class AppStyle{
 
   static const linearProgressBarColor = Color(0xFF36343B);
   static const firstProjectCardColor = Color(0xFF272634);
+  static const bottomNavigationBarColor = Color(0xFF161419);
 }

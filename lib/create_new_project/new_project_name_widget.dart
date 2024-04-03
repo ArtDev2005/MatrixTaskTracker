@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matrix/create_new_project/progress_bar.dart';
 
+import '../custom_widgets/text_field_widget.dart';
+import '../resources/resources.dart';
 import '../theme/theme.dart';
 import 'new_project_tasks_widget.dart';
 
@@ -15,7 +19,7 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
 
   final TextEditingController _emailController = TextEditingController();
 
-  InputDecoration decorate(String labelName, Icon icon, Color textColor){
+  InputDecoration decorateTextFields(String labelName, SvgPicture icon, Color textColor){
     return InputDecoration(
       border: OutlineInputBorder(),
       enabledBorder: OutlineInputBorder(
@@ -28,6 +32,43 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
       labelText: labelName,
       contentPadding: EdgeInsets.only(left: 16),
       prefixIcon: icon,
+    );
+  }
+
+  Widget getTextFields()
+  {
+    List<Widget> list = [];
+    for(int index = 0; index < 4; index++){
+      if (index == 0){
+        list.add(
+            CustomTextField(
+              enabled: true,
+              iconPath: Images.picture,
+              labelText: "Project name",
+              color: Colors.white,
+            )
+        );
+      }
+      else{
+        list.add(
+            CustomTextField(
+              enabled: false,
+              iconPath: Images.tickCircleLinear,
+              labelText: "Task ${index}",
+              color: Colors.white24,
+            )
+        );
+      }
+
+      if (index < 3){
+        list.add(
+            SizedBox(height: 10,)
+        );
+      }
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 26),
+      child: Column(children: list),
     );
   }
 
@@ -60,26 +101,7 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
                   borderRadius: BorderRadius.all(Radius.circular(55)),
                   color: AppStyle.firstProjectCardColor
               ),
-              width: 380,
-              height: 318,
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 56,
-                    child: TextField(
-                      controller: index == 0 ? _emailController : null,
-                      style: TextStyle(color: Colors.white),
-                      enabled: index == 0 ? true : false,
-                      decoration: index == 0 ?
-                      decorate("Project name", Icon(Icons.image), Colors.white, ) :
-                      decorate("Task ${index}", Icon(Icons.check_circle_outline), Colors.white24) ,
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
-              ),
+              child: getTextFields()
             ),
           ],
         ),

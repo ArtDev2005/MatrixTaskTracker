@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matrix/create_new_project/progress_bar.dart';
 
+import '../custom_widgets/text_field_widget.dart';
+import '../resources/resources.dart';
 import '../theme/theme.dart';
 import 'new_project_invite_widget.dart';
 
@@ -16,7 +19,7 @@ class NewProjectTasksWidget extends StatefulWidget {
 
 class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
 
-  InputDecoration decorate(String labelName, Icon icon){
+  InputDecoration decorateTextFields(String labelName, SvgPicture icon){
     return InputDecoration(
       border: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white)
@@ -31,6 +34,43 @@ class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
       labelText: labelName,
       contentPadding: EdgeInsets.only(left: 16),
       prefixIcon: icon,
+    );
+  }
+
+  Widget getTextFields()
+  {
+    List<Widget> list = [];
+    for(int index = 0; index < 4; index++){
+      if (index == 0){
+        list.add(
+            CustomTextField(
+              enabled: false,
+              iconPath: Images.picture,
+              labelText: "Project name",
+              color: Colors.white,
+            )
+        );
+      }
+      else{
+        list.add(
+            CustomTextField(
+              enabled: true,
+              iconPath: Images.tickCircleLinear,
+              labelText: "Task ${index}",
+              color: Colors.white24,
+            )
+        );
+      }
+
+      if (index < 3){
+        list.add(
+            SizedBox(height: 10,)
+        );
+      }
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 26),
+      child: Column(children: list),
     );
   }
 
@@ -65,27 +105,7 @@ class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
                   borderRadius: BorderRadius.all(Radius.circular(55)),
                   color: AppStyle.firstProjectCardColor
               ),
-              width: 380,
-              height: 318,
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(vertical: 32, horizontal: 26),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 56,
-                    child: TextField(
-
-                      style: TextStyle(color: Colors.white),
-                      controller: widget._controllers[index],
-                      enabled: index != 0 ? true : false,
-                      decoration: index == 0 ?
-                      decorate("Project name", Icon(Icons.image)) :
-                      decorate("Task ${index}", Icon(Icons.check_circle_outline)) ,
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10,),
-              ),
+              child: getTextFields()
             ),
           ],
         ),

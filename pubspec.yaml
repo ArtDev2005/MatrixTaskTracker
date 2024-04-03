@@ -69,6 +69,12 @@ flutter:
   assets:
     - assets/images/matrix_logo.png
     - assets/images/icon_google.svg
+    - assets/images/home.svg
+    - assets/images/account.svg
+    - assets/images/notification.svg
+    - assets/images/search.svg
+    - assets/images/tick_circle_linear.svg
+    - assets/images/picture.svg
 
   # An images asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

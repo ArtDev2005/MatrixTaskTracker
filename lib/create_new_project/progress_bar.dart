@@ -34,9 +34,7 @@ class _ProgressBarWidgetState extends State<ProgressBarWidget> {
           ),
           SizedBox(width: 20,),
           ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(AppStyle
-                    .mainForegroundColor)),
+
             onPressed: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
@@ -65,7 +63,6 @@ class _ProgressBarWidgetState extends State<ProgressBarWidget> {
             },
             child: Text(
               "Skip",
-              style: TextStyle(color: Colors.white),
             ),
           )
         ],

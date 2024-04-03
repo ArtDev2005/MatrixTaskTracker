@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matrix/create_new_project/progress_bar.dart';
+import 'package:matrix/main_screen.dart';
 import 'package:matrix/theme/theme.dart';
 
 class NewProjectInviteWidget extends StatefulWidget {
@@ -38,7 +39,7 @@ class NewProjectInviteWidgetState extends State<NewProjectInviteWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
             children: [
-              FittedBox(child: ProgressBarWidget(step: 3, nextScreen: NewProjectInviteWidget(data: data),)),
+              FittedBox(child: ProgressBarWidget(step: 3, nextScreen: MainScreen(),)),
               Column(
                 children: [
                   SizedBox(height: 16,),
@@ -64,14 +65,13 @@ class NewProjectInviteWidgetState extends State<NewProjectInviteWidget> {
                   ),
                   SizedBox(height: 16,),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
-                        style: TextStyle(fontSize: 16),
-                        children: [
-                          TextSpan(text: "Read more in our "),
-                          TextSpan(text: "Privacy Policy",
-                              style: TextStyle(fontWeight: FontWeight.bold)
-                          ),
-                        ]
+                      style: Theme.of(context).primaryTextTheme.bodyMedium,
+                      children: const <TextSpan>[
+                        TextSpan(text: 'Read more in our'),
+                        TextSpan(text: ' Privacy Policy', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
                     ),
                   )
 

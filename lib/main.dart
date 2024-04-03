@@ -4,6 +4,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/auth/auth.dart';
 import 'package:matrix/create_new_project/first_project_screen.dart';
+import 'package:matrix/main_screen.dart';
 import 'package:matrix/reg/reg.dart';
 import 'package:matrix/theme/theme.dart';
 import 'firebase_options.dart';
@@ -22,72 +23,46 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final emailLink;
-  const MyApp({super.key, required this.emailLink});
+  final ThemeData base = ThemeData.dark();
+  MyApp({super.key, required this.emailLink});
 
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: AppStyle.mainBackgroundColor,
         primaryTextTheme: TextTheme(
-          bodySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w400)
+            bodyMedium: TextStyle(
+              color: Colors.white,
+            )
         ),
-        primaryColor: AppStyle.mainBackgroundColor,
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+
+          backgroundColor: AppStyle.bottomNavigationBarColor,
+          unselectedItemColor: Colors.blue,
+          selectedItemColor: Colors.white
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppStyle.mainBackgroundColor,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStatePropertyAll(Colors.white),
+            backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)
+          )
+        ),
+        scaffoldBackgroundColor: AppStyle.mainBackgroundColor,
         fontFamily: 'Saira',
+
       ),
       routes: {
         "/reg": (context) => Reg(emailLink: this.emailLink),
         //"/auth": (context) => Auth(),
         "/reg/first_project_screen": (context) => FirstProjectScreen(),
+        "/main": (context) => MainScreen()
       },
-      initialRoute: "/reg",
+      initialRoute: "/main",
 
-    );
-  }
-}
-
-class ProgressBarWidget extends StatefulWidget {
-  const ProgressBarWidget({super.key});
-
-  @override
-  State<ProgressBarWidget> createState() => _ProgressBarWidgetState();
-}
-
-class _ProgressBarWidgetState extends State<ProgressBarWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(top: 75, left: 20),
-        child: Row(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: 280,
-                  height: 4,
-                  color: AppStyle.linearProgressBarColor,
-                ),
-                Container(
-                  width: 70,
-                  height: 4,
-                  color: AppStyle.mainForegroundColor,
-                ),
-              ],
-            ),
-            SizedBox(width: 20,),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(AppStyle
-                      .mainForegroundColor)),
-              onPressed: () {},
-              child: Text(
-                "Skip",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          ],
-        )
     );
   }
 }

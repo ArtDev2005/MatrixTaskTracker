@@ -17,7 +17,6 @@ class Reg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -155,12 +154,11 @@ class _FormWidgetState extends State<_FormWidget> {
         ),
         SizedBox(height: 39,),
         ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)),
             onPressed: (){
               Navigator.of(context).pushNamed("/reg/first_project_screen");
               //reg();
             },
-            child: Text("Create account", style: TextStyle(color: Colors.white),)
+            child: Text("Create account")
         ),
       ],
     );
