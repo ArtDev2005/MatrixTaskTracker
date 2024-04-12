@@ -15,16 +15,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final PendingDynamicLinkData? emailLink = await FirebaseDynamicLinks.instance.getInitialLink();
-
-
-  runApp(MyApp(emailLink: emailLink));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final emailLink;
   final ThemeData base = ThemeData.dark();
-  MyApp({super.key, required this.emailLink});
+  MyApp({super.key});
 
 
   @override
@@ -38,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
 
-          backgroundColor: AppStyle.bottomNavigationBarColor,
+          backgroundColor: AppStyle.mainForegroundColor,
           unselectedItemColor: Colors.blue,
           selectedItemColor: Colors.white
         ),
@@ -48,7 +44,7 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: MaterialStatePropertyAll(Colors.white),
-            backgroundColor: MaterialStatePropertyAll(AppStyle.mainForegroundColor)
+            backgroundColor: MaterialStatePropertyAll(AppStyle.mainButtonColor)
           )
         ),
         scaffoldBackgroundColor: AppStyle.mainBackgroundColor,
@@ -56,7 +52,7 @@ class MyApp extends StatelessWidget {
 
       ),
       routes: {
-        "/reg": (context) => Reg(emailLink: this.emailLink),
+        "/reg": (context) => Reg(),
         //"/auth": (context) => Auth(),
         "/reg/first_project_screen": (context) => FirstProjectScreen(),
         "/main": (context) => MainScreen()

@@ -19,14 +19,10 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
 
   final TextEditingController _emailController = TextEditingController();
 
-  InputDecoration decorateTextFields(String labelName, SvgPicture icon, Color textColor){
+  InputDecoration decorate(String labelName, Icon icon, Color textColor){
     return InputDecoration(
-      border: OutlineInputBorder(),
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white),
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white24),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white),
       ),
       labelStyle: TextStyle(color: textColor),
       labelText: labelName,
@@ -79,7 +75,7 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            FittedBox(child: ProgressBarWidget(step: 1, nextScreen: NewProjectTasksWidget(emailController: _emailController,),)),
+            FittedBox(child: ProgressBarWidget(step: 1, nextScreen: NewProjectTasksWidget(),)),
             Text("Your first Project",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -99,7 +95,7 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
               decoration: BoxDecoration(
                   border: Border.all(),
                   borderRadius: BorderRadius.all(Radius.circular(55)),
-                  color: AppStyle.firstProjectCardColor
+                  color: AppStyle.darkGrey
               ),
               child: getTextFields()
             ),

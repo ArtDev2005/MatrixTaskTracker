@@ -11,8 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Reg extends StatelessWidget {
-  final emailLink;
-  const Reg({super.key, required this.emailLink});
+  const Reg({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class Reg extends StatelessWidget {
           children: [
             Image.asset(Images.matrixLogo),
             SizedBox(height: 35,),
-            _FormWidget(emailLink: this.emailLink),
+            _FormWidget(),
             SizedBox(height: 39,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,8 +63,7 @@ class Reg extends StatelessWidget {
 
 
 class _FormWidget extends StatefulWidget {
-  final emailLink;
-  _FormWidget({super.key, required this.emailLink});
+  _FormWidget({super.key});
 
 
   @override
@@ -86,44 +84,6 @@ class _FormWidgetState extends State<_FormWidget> {
   );
 
   final TextEditingController _emailController = TextEditingController();
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future signInWithEmailLink(userEmail)async{
-    var _userEmail = userEmail;
-    return await _auth.sendSignInLinkToEmail(
-        email: _userEmail,
-        actionCodeSettings: ActionCodeSettings(
-          url: "https://matrixtasktracker.page.link/main",
-          handleCodeInApp: true,
-          androidPackageName:"com.example.matrix_task_tracker",
-          androidMinimumVersion: "1",
-        )
-    ).catchError((onError) => print('Error sending email verification $onError')).then((value){
-      print("email sent");
-    });
-  }
-
-  Future<void> reg() async {
-    signInWithEmailLink(_emailController.text);
-    getLink();
-  }
-
-  void getLink() async {
-    try {
-      if (FirebaseAuth.instance.isSignInWithEmailLink(widget.emailLink!.link.path)) {
-        // The client SDK will parse the code from the link for you.
-        final userCredential = await FirebaseAuth.instance
-            .signInWithEmailLink(email: _emailController.text, emailLink: widget.emailLink.link.path);
-
-        // You can access the new user via userCredential.user.
-        final emailAddress = userCredential.user?.email;
-
-        print('Successfully signed in with email link!');}}
-    catch (error) {
-      print('Error signing in with email link.');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

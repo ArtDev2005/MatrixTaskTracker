@@ -8,9 +8,7 @@ import '../theme/theme.dart';
 import 'new_project_invite_widget.dart';
 
 class NewProjectTasksWidget extends StatefulWidget {
-  final TextEditingController emailController;
-  final List<TextEditingController> _controllers = List.generate(4, (index) => TextEditingController());
-  NewProjectTasksWidget({super.key, required this.emailController});
+  NewProjectTasksWidget({super.key});
 
 
   @override
@@ -19,18 +17,12 @@ class NewProjectTasksWidget extends StatefulWidget {
 
 class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
 
-  InputDecoration decorateTextFields(String labelName, SvgPicture icon){
+  InputDecoration decorate(String labelName, Icon icon, Color textColor){
     return InputDecoration(
       border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white)
+        borderSide: BorderSide(color: Colors.white),
       ),
-      enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white)
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white),
-      ),
-      labelStyle: TextStyle(color: Colors.white),
+      labelStyle: TextStyle(color: textColor),
       labelText: labelName,
       contentPadding: EdgeInsets.only(left: 16),
       prefixIcon: icon,
@@ -76,14 +68,12 @@ class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
 
   @override
   Widget build(BuildContext context) {
-    widget._controllers[0].text = widget.emailController.text;
-    final data = <TextEditingController>[widget.emailController, ...widget._controllers];
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            FittedBox(child: ProgressBarWidget(step: 2, nextScreen: NewProjectInviteWidget(data: data),)),
+            FittedBox(child: ProgressBarWidget(step: 2, nextScreen: NewProjectInviteWidget(),)),
             Text("Your first Project",
               style: TextStyle(
                   color: Colors.white,
@@ -103,7 +93,7 @@ class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
               decoration: BoxDecoration(
                   border: Border.all(),
                   borderRadius: BorderRadius.all(Radius.circular(55)),
-                  color: AppStyle.firstProjectCardColor
+                  color: AppStyle.darkGrey
               ),
               child: getTextFields()
             ),

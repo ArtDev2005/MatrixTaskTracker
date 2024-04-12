@@ -4,9 +4,7 @@ import 'package:matrix/main_screen.dart';
 import 'package:matrix/theme/theme.dart';
 
 class NewProjectInviteWidget extends StatefulWidget {
-  final List<TextEditingController> data;
-  NewProjectInviteWidget({super.key, required this.data});
-  final _inviteEmailController = TextEditingController();
+  NewProjectInviteWidget({super.key});
 
 
   @override
@@ -17,12 +15,8 @@ class NewProjectInviteWidgetState extends State<NewProjectInviteWidget> {
 
   InputDecoration decorate(String labelName, Icon icon, Color textColor){
     return InputDecoration(
-      border: OutlineInputBorder(),
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white),
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white12),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white),
       ),
       labelStyle: TextStyle(color: textColor),
       labelText: labelName,
@@ -33,7 +27,6 @@ class NewProjectInviteWidgetState extends State<NewProjectInviteWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final data = <TextEditingController>[...widget.data, widget._inviteEmailController];
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
