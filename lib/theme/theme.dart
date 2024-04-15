@@ -7,4 +7,5 @@ abstract class AppStyle{
   static const linearProgressBarColor = Color(0xFF36343B);
   static const mainForegroundColor = Color(0xFF161419);
   static const darkGrey = Color(0xFF272634);
+  static const lightBlue = Color(0xFF6381CF);
 }

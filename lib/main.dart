@@ -55,9 +55,9 @@ class MyApp extends StatelessWidget {
         "/reg": (context) => Reg(),
         //"/auth": (context) => Auth(),
         "/reg/first_project_screen": (context) => FirstProjectScreen(),
-        "/main": (context) => MainScreen()
+        "/": (context) => MainScreen()
       },
-      initialRoute: "/main",
+      //initialRoute: "/reg",
 
     );
   }

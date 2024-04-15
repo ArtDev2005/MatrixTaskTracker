@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matrix/painters.dart';
 import 'package:matrix/project_detailed_screen.dart';
 import 'package:matrix/resources/resources.dart';
 import 'package:matrix/theme/theme.dart';
@@ -211,11 +212,14 @@ class _ProjectTabState extends State<ProjectTab> {
             child: InkWell(
               borderRadius: getBorderRadius(),
               onTap: (){
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                   PageRouteBuilder(
 
                     pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation,){
-                      return ProjectDetailedScreen();
+                      return ProjectDetailedScreen(
+                        projectName: widget.projectName,
+                        projectColor: widget.projectColor,
+                      );
                     },
                     transitionsBuilder: (
                         BuildContext context,
@@ -244,30 +248,4 @@ class _ProjectTabState extends State<ProjectTab> {
   }
 }
 
-class CirclePainter extends CustomPainter{
-  final Color color;
-  CirclePainter({required this.color});
 
-  @override
-  void paint(Canvas canvas, Size size){
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 20, Paint()..color = this.color);
-  }
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class TrianglePainter extends CustomPainter{
-  final Color color;
-  TrianglePainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size){
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 20, Paint()..color = this.color);
-  }
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
