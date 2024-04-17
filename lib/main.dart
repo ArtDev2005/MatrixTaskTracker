@@ -27,8 +27,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        actionIconTheme: ActionIconThemeData(
+          backButtonIconBuilder: (BuildContext context) => Icon(Icons.arrow_back_ios_new, color: AppStyle.lightBlue,),
+        ),
         primaryTextTheme: TextTheme(
             bodyMedium: TextStyle(
+              color: Colors.white,
+            ),
+            bodyLarge: TextStyle(
               color: Colors.white,
             )
         ),

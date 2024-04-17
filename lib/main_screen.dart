@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matrix/make_new_task_screen.dart';
 import 'package:matrix/painters.dart';
 import 'package:matrix/project_detailed_screen.dart';
 import 'package:matrix/resources/resources.dart';
@@ -110,7 +111,32 @@ class _MainScreenState extends State<MainScreen> {
             Positioned(
               bottom: 10, right: 0,
               child: ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+
+                      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation,){
+                        return MakeNewTaskScreen();
+                      },
+                      transitionsBuilder: (
+                          BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation,
+                          Widget child) {
+                        const begin = Offset(1.0, 0.0);
+                        const end = Offset.zero;
+                        final tween = Tween(begin: begin, end: end);
+                        final offsetAnimation = animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: Duration(milliseconds: 200),
+
+                    ),
+                  );
+                },
                 child: Row(
                   children: [
                     Icon(Icons.add),
@@ -119,7 +145,8 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
                 style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 16)
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+
                 ),
               ),
             )

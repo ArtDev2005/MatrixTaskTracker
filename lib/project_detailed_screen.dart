@@ -98,39 +98,53 @@ class TaskTab extends StatefulWidget {
 class _TaskTabState extends State<TaskTab> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppStyle.mainForegroundColor,
-      width: double.infinity,
-      height: 72,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+    return Stack(
+      children: [
+        Container(
+          color: AppStyle.mainForegroundColor,
+          width: double.infinity,
+          height: 72,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SvgPicture.asset(Images.tickCircleLinear),
-                SizedBox(width: 16,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Row(
                   children: [
-                    Text(
-                      this.widget.taskName,
-                      style: Theme.of(context).primaryTextTheme.titleMedium,
+                    SvgPicture.asset(Images.tickCircleLinear),
+                    SizedBox(width: 16,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          this.widget.taskName,
+                          style: Theme.of(context).primaryTextTheme.titleMedium,
+                        ),
+                        Text(
+                          this.widget.deadline,
+                          style: Theme.of(context).primaryTextTheme.bodyMedium,
+                        )
+                      ],
                     ),
-                    Text(
-                      this.widget.deadline,
-                      style: Theme.of(context).primaryTextTheme.bodyMedium,
-                    )
                   ],
                 ),
+                Icon(Icons.arrow_right, color: Colors.white,)
               ],
             ),
-            Icon(Icons.arrow_right, color: Colors.white,)
-          ],
+          ),
         ),
-      ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: (){
+
+              },
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -151,7 +165,64 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
     return Theme(
       data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
-        trailing: Icon(Icons.more_horiz, size: 32, color: AppStyle.lightBlue,),
+        trailing: Stack(
+          children: [
+            Icon(Icons.more_horiz, size: 32, color: AppStyle.lightBlue,),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: (){
+                    showModalBottomSheet(
+                        enableDrag: true,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)
+                          ),
+                        ),
+                        backgroundColor: AppStyle.darkGrey,
+                        context: context,
+                        builder: (context){
+                          return Wrap(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                child: Center(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                    ),
+                                    width: 32,
+                                    height: 4,
+
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                  leading: Icon(Icons.edit, color: AppStyle.lightBlue,),
+                                  title: Text("Check section title", style: Theme.of(context).primaryTextTheme.bodyMedium,)
+                              ),
+                              ListTile(
+                                  leading: Icon(Icons.add_circle_outlined, color: AppStyle.lightBlue,),
+                                  title: Text("Add new section", style: Theme.of(context).primaryTextTheme.bodyMedium,)
+                              ),
+                              ListTile(
+                                  leading: Icon(Icons.cancel, color: AppStyle.lightBlue,),
+                                  title: Text("Delete section", style: Theme.of(context).primaryTextTheme.bodyMedium,)
+                              )
+                            ],
+                          );
+                        }
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
         tilePadding: EdgeInsets.only(left: 8, right: 16),
         backgroundColor: AppStyle.darkGrey,
         collapsedBackgroundColor: AppStyle.darkGrey,

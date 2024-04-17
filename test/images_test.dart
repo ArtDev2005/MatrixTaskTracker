@@ -5,7 +5,10 @@ import 'package:matrix/resources/resources.dart';
 
 void main() {
   test('images assets test', () {
+    expect(File(Images.vector).existsSync(), isTrue);
     expect(File(Images.account).existsSync(), isTrue);
+    expect(File(Images.addCircle).existsSync(), isTrue);
+    expect(File(Images.crossClose).existsSync(), isTrue);
     expect(File(Images.home).existsSync(), isTrue);
     expect(File(Images.iconGoogle).existsSync(), isTrue);
     expect(File(Images.matrixLogo).existsSync(), isTrue);
