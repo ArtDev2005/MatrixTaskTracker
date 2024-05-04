@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matrix/create_new_project/progress_bar.dart';
+import 'package:matrix/create_first_project/progress_bar.dart';
 import 'package:matrix/main_screen.dart';
 import 'package:matrix/theme/theme.dart';
 

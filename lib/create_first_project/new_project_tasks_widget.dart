@@ -1,23 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matrix/create_new_project/progress_bar.dart';
+import 'package:matrix/create_first_project/progress_bar.dart';
 
 import '../custom_widgets/text_field_widget.dart';
 import '../resources/resources.dart';
 import '../theme/theme.dart';
-import 'new_project_tasks_widget.dart';
+import 'new_project_invite_widget.dart';
 
-class NewProjectNameWidget extends StatefulWidget {
-  const NewProjectNameWidget({super.key});
+class NewProjectTasksWidget extends StatefulWidget {
+  NewProjectTasksWidget({super.key});
+
 
   @override
-  State<NewProjectNameWidget> createState() => NewProjectNameWidgetState();
+  NewProjectTasksWidgetState createState() => NewProjectTasksWidgetState();
 }
 
-class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
-
-  final TextEditingController _emailController = TextEditingController();
+class NewProjectTasksWidgetState extends State<NewProjectTasksWidget> {
 
   InputDecoration decorate(String labelName, Icon icon, Color textColor){
     return InputDecoration(
@@ -38,7 +36,7 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
       if (index == 0){
         list.add(
             CustomTextField(
-              enabled: true,
+              enabled: false,
               iconPath: Images.picture,
               labelText: "Project name",
               color: Colors.white,
@@ -48,7 +46,7 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
       else{
         list.add(
             CustomTextField(
-              enabled: false,
+              enabled: true,
               iconPath: Images.tickCircleLinear,
               labelText: "Task ${index}",
               color: Colors.white24,
@@ -75,14 +73,14 @@ class NewProjectNameWidgetState extends State<NewProjectNameWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            FittedBox(child: ProgressBarWidget(step: 1, nextScreen: NewProjectTasksWidget(),)),
+            FittedBox(child: ProgressBarWidget(step: 2, nextScreen: NewProjectInviteWidget(),)),
             Text("Your first Project",
-              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 16,),
             Text("What is your team working on now?",

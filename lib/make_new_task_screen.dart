@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:matrix/custom_widgets/rounded_widget.dart';
 import 'package:matrix/theme/theme.dart';
 
 class MakeNewTaskScreen extends StatefulWidget {
@@ -72,53 +73,48 @@ class _MakeNewTaskScreenState extends State<MakeNewTaskScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 23),
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        width: double.infinity,
-                        height: 56,
-                        color: AppStyle.mainForegroundColor,
-                        child: Row(
-                          children: [
-                            Icon(Icons.edit, color: AppStyle.lightBlue,),
-                            SizedBox(width: 16,),
-                            Text("List item Name", style: Theme.of(context).primaryTextTheme.bodyMedium),
-                          ],
-                        ),
-                      ),
-                      Stack(
+                child: RoundedWidget(
+                  radius: 20,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      width: double.infinity,
+                      height: 56,
+                      color: AppStyle.mainForegroundColor,
+                      child: Row(
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(16),
-                            width: double.infinity,
-                            height: 56,
-                            color: AppStyle.mainForegroundColor,
-                            child: Row(
-                              children: [
-                                Icon(Icons.add_circle, color: Colors.white,),
-                                SizedBox(width: 16,),
-                                Text("Add list item", style: Theme.of(context).primaryTextTheme.bodyMedium),
-                              ],
+                          Icon(Icons.edit, color: AppStyle.lightBlue,),
+                          SizedBox(width: 16,),
+                          Text("List item Name", style: Theme.of(context).primaryTextTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          width: double.infinity,
+                          height: 56,
+                          color: AppStyle.mainForegroundColor,
+                          child: Row(
+                            children: [
+                              Icon(Icons.add_circle, color: Colors.white,),
+                              SizedBox(width: 16,),
+                              Text("Add list item", style: Theme.of(context).primaryTextTheme.bodyMedium),
+                            ],
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: (){},
                             ),
                           ),
-                          Positioned.fill(
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: (){},
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ),
               Align(
@@ -260,7 +256,8 @@ class _AddProjectWidgetState extends State<AddProjectWidget> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: (){},
+                  onTap: (){
+                  },
                 ),
               ),
             )

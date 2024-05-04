@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matrix/painters.dart';
+import 'package:matrix/custom_widgets/custom_expansion_tile.dart';
+import 'package:matrix/custom_widgets/rounded_widget.dart';
+import 'package:matrix/custom_widgets/painters.dart';
 import 'package:matrix/resources/resources.dart';
 import 'package:matrix/theme/theme.dart';
+
+import 'custom_widgets/tabs.dart';
+import 'make_new_task_screen.dart';
 
 class ProjectDetailedScreen extends StatefulWidget {
   final Color projectColor;
@@ -20,10 +25,10 @@ class ProjectDetailedScreen extends StatefulWidget {
 }
 
 class _ProjectDetailedScreenState extends State<ProjectDetailedScreen> {
-  bool _isExpanded = false;
-  List<bool> ExpPanelToggles = [
-    false, false, false, false
-  ];
+  //bool _isExpanded = false;
+  // List<bool> ExpPanelToggles = [
+  //   false, false, false, false
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -56,190 +61,152 @@ class _ProjectDetailedScreenState extends State<ProjectDetailedScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
-        child: SingleChildScrollView(
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15)
-            ),
-            child: Column(
-              children: [
-                CustomExpansionTile(title: "Recently Appointed",),
-                CustomExpansionTile(title: "Today",),
-                CustomExpansionTile(title: "Next week",),
-                CustomExpansionTile(title: "Later",),
-              ],
-            ),
-          ),
-        ),
-      )
-    );
-  }
-}
-
-
-class TaskTab extends StatefulWidget {
-  final String taskName;
-  final String deadline;
-  const TaskTab(
-      {
-        super.key,
-        required this.taskName,
-        required this.deadline,
-      }
-  );
-
-  @override
-  State<TaskTab> createState() => _TaskTabState();
-}
-
-class _TaskTabState extends State<TaskTab> {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          color: AppStyle.mainForegroundColor,
-          width: double.infinity,
-          height: 72,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 23, right: 16, left: 16),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: RoundedWidget(
+                  radius: 20,
                   children: [
-                    SvgPicture.asset(Images.tickCircleLinear),
-                    SizedBox(width: 16,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    CustomExpansionTile(
+                      title: "Recently Appointed",
                       children: [
-                        Text(
-                          this.widget.taskName,
-                          style: Theme.of(context).primaryTextTheme.titleMedium,
+                        TaskTab(
+                          name: "Task 1",
+                          date: "March 14th",
+                          showDate: true,
                         ),
-                        Text(
-                          this.widget.deadline,
-                          style: Theme.of(context).primaryTextTheme.bodyMedium,
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 2",
+                          date: "March 14th",
+                          showDate: true,
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 3",
+                          date: "March 14th",
+                          showDate: true,
+                        )
+                      ],
+                    ),
+                    CustomExpansionTile(
+                      title: "Today",
+                      children: [
+                        TaskTab(
+                          name: "Task 1",
+                          date: "March 14th",
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 2",
+                          date: "March 14th",
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 3",
+                          date: "March 14th",
+                        )
+                      ],
+                    ),
+                    CustomExpansionTile(
+                      title: "Next week",
+                      children: [
+                        TaskTab(
+                          name: "Task 1",
+                          date: "March 14th",
+                          showDate: true,
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 2",
+                          date: "March 14th",
+                          showDate: true,
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 3",
+                          date: "March 14th",
+                          showDate: true,
+                        )
+                      ],
+                    ),
+                    CustomExpansionTile(
+                      title: "Later",
+                      children: [
+                        TaskTab(
+                          name: "Task 1",
+                          date: "March 14th",
+                          showDate: true,
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 2",
+                          date: "March 14th",
+                          showDate: true,
+                        ),
+                        Divider(color: AppStyle.darkGrey, height: 1,),
+                        TaskTab(
+                          name: "Task 3",
+                          date: "March 14th",
+                          showDate: true,
                         )
                       ],
                     ),
                   ],
                 ),
-                Icon(Icons.arrow_right, color: Colors.white,)
-              ],
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: (){
-
-              },
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
-
-
-class CustomExpansionTile extends StatefulWidget {
-  final String title;
-  const CustomExpansionTile({super.key, required this.title});
-
-  @override
-  State<CustomExpansionTile> createState() => _CustomExpansionTileState();
-}
-
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
-  
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData().copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        trailing: Stack(
-          children: [
-            Icon(Icons.more_horiz, size: 32, color: AppStyle.lightBlue,),
-            Positioned.fill(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: (){
-                    showModalBottomSheet(
-                        enableDrag: true,
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)
-                          ),
-                        ),
-                        backgroundColor: AppStyle.darkGrey,
-                        context: context,
-                        builder: (context){
-                          return Wrap(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                child: Center(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                    ),
-                                    width: 32,
-                                    height: 4,
-
-                                  ),
-                                ),
-                              ),
-                              ListTile(
-                                  leading: Icon(Icons.edit, color: AppStyle.lightBlue,),
-                                  title: Text("Check section title", style: Theme.of(context).primaryTextTheme.bodyMedium,)
-                              ),
-                              ListTile(
-                                  leading: Icon(Icons.add_circle_outlined, color: AppStyle.lightBlue,),
-                                  title: Text("Add new section", style: Theme.of(context).primaryTextTheme.bodyMedium,)
-                              ),
-                              ListTile(
-                                  leading: Icon(Icons.cancel, color: AppStyle.lightBlue,),
-                                  title: Text("Delete section", style: Theme.of(context).primaryTextTheme.bodyMedium,)
-                              )
-                            ],
-                          );
-                        }
-                    );
-                  },
-                ),
               ),
-            )
-          ],
+              Positioned(
+                  bottom: 10,
+                  right: 0,
+                  child: ElevatedButton(
+                    onPressed: (){
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+
+                          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation,){
+                            return MakeNewTaskScreen();
+                          },
+                          transitionsBuilder: (
+                              BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation,
+                              Widget child) {
+                            const begin = Offset(1.0, 0.0);
+                            const end = Offset.zero;
+                            final tween = Tween(begin: begin, end: end);
+                            final offsetAnimation = animation.drive(tween);
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 200),
+
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        SizedBox(width: 8,),
+                        Text("New Task")
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                    ),
+                  )
+              )
+            ],
+          ),
         ),
-        tilePadding: EdgeInsets.only(left: 8, right: 16),
-        backgroundColor: AppStyle.darkGrey,
-        collapsedBackgroundColor: AppStyle.darkGrey,
-        controlAffinity: ListTileControlAffinity.platform,
-        leading: Icon(Icons.arrow_drop_down_rounded, size: 48, color: Colors.white,),
-        title: Text(
-          this.widget.title,
-          style: Theme.of(context).primaryTextTheme.bodyMedium,
-        ),
-        children: [
-          TaskTab(taskName: "Task 1", deadline: "March 17th",),
-          Divider(color: AppStyle.darkGrey, height: 1,),
-          TaskTab(taskName: "Task 2", deadline: "Today",),
-          Divider(color: AppStyle.darkGrey, height: 1,),
-          TaskTab(taskName: "Task 3", deadline: "April 23th",),
-        ],
-      ),
+      )
     );
   }
 }
